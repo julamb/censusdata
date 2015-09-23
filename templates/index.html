@@ -1,0 +1,45 @@
+<!doctype html>
+<html ng-app="censusdata">
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+        <script src="static/censusdata.js"></script>
+    </head>
+
+    <body ng-controller="dataCtrl">
+        <div class="container">
+
+            <div class="page-header">
+                <h1>US Census Data Viewer</h1>
+            </div>
+
+            <div class="form-group text-center" style="margin: 30px">
+                    <label for="columnSelect">Select variable</label><br/>
+                    <select ng-model="selected_column" ng-change="reload()" id="columnSelect">
+                        {% for column in columns %}
+                            <option value="{{column}}">{{column}}</option>
+                        {% endfor %}
+                    </select>
+            </div>
+
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <th>Value</th>
+                    <th>Count</th>
+                    <th>Average {{config.VARIABLE}}</th>
+                </tr>
+
+                <tr ng-repeat="line in lines">
+                    <td>[[line.value]]</td>
+                    <td>[[line.count]]</td>
+                    <td>[[line.average]]</td> <!-- We could round the average to 2 digits using [[line.average | number: 2]] -->
+                </tr>
+            </table>
+
+            <div ng-show="ignored_rows != 0">
+                <p>[[ignored_rows]] ignored rows ([[ignored_values]] distinct values)</p>
+            </div>
+
+        </div>
+    </body>
+</html>
